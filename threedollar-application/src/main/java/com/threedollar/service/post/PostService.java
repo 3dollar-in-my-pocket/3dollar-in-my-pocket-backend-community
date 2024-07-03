@@ -83,6 +83,7 @@ public class PostService {
     }
 
 
+    @Transactional
     public PostResponse update(String workspaceId,
                                String accountId,
                                Long postId,

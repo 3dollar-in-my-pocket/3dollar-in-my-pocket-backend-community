@@ -16,28 +16,38 @@ Content-Type: application/json
 }
 
 
-
-### Post 조회 (다건 조회)
-GET {{host_api}}/community/v1/post-group/NEWS_POST?cursor=8&size=3&targetId=3&postGroup=NEWS_POST
+### Post 수정
+PATCH {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post/3
 X-Community-Api-Key: {{api_key}}
 Content-Type: application/json
 
+
+{
+      "title": "오늘은 휴일입니다",
+      "content": "정기적인 휴일입니다.",
+      "postSections": [
+       {
+          "sectionType": "IMAGE",
+          "ratio": 23.333,
+          "url": "www.naver.com"
+       }
+      ]
+}
+
+
+### Post 조회 (다건 조회)
+GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/posts?size=3
+X-Community-Api-Key: {{api_key}}
+Content-Type: application/json
 
 
 ### Post 단건 조회
-GET {{host_api}}/community/v1/post-group/NEWS_POST/post/3?targetId=3
+GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post/0
 X-Community-Api-Key: {{api_key}}
 Content-Type: application/json
-
 
 
 ### Post targetId 에 해당하는 post 개수 조회
-GET {{host_api}}/community/v1/post-group/NEWS_POST/count?targetId=3
+GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post-count
 X-Community-Api-Key: {{api_key}}
 Content-Type: application/json
-
-
-### Post 수정
-GET {{host_api}}/community/v1/post-group/NEWS_POST/post/2?targetId=3
-X-Community-Api-Key: {{api_key}}
-
