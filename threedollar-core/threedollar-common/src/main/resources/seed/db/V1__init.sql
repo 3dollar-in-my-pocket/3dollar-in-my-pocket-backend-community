@@ -59,3 +59,16 @@ create table `post`
     PRIMARY KEY(`id`)
 );
 
+
+create table `post_section`
+(
+    id           bigint auto_increment,
+    post_id      bigint       not null,
+    url          varchar(500) not null,
+    ratio        double       not null,
+    section_type varchar(30) not null,
+    created_at   datetime(6)  null,
+    updated_at   datetime(6)  null,
+    PRIMARY KEY(`id`),
+    KEY (post_id)
+);
