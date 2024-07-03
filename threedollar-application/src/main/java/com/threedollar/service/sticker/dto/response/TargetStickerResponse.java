@@ -8,14 +8,14 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
-public class TargetStickerAction {
+public class TargetStickerResponse {
 
     private String targetId;
 
-    private List<StickerInfoDetail> stickers;
+    private List<StickerWithActionResponse> stickers;
 
     @Builder
-    public TargetStickerAction(String targetId, List<StickerInfoDetail> stickers) {
+    public TargetStickerResponse(String targetId, List<StickerWithActionResponse> stickers) {
         this.targetId = targetId;
         this.stickers = stickers;
     }

@@ -2,6 +2,7 @@ package com.threedollar.service.poll.dto.response;
 
 import com.threedollar.domain.options.PollOption;
 import com.threedollar.domain.poll.Poll;
+import com.threedollar.service.common.dto.response.CursorResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

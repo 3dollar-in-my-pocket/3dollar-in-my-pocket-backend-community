@@ -6,10 +6,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApiKeyResponse {
 
     @NotNull
@@ -20,10 +22,6 @@ public class ApiKeyResponse {
 
     @Nullable
     private String description;
-
-    private ApiKeyResponse() {
-
-    }
 
     @Builder(access = AccessLevel.PRIVATE)
     public ApiKeyResponse(@NotNull String apiKey, @NotNull String workspaceId,

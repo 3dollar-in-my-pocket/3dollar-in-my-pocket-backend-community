@@ -1,15 +1,16 @@
-package com.threedollar.service.post.response;
+package com.threedollar.service.post.dto.response;
 
 import com.threedollar.domain.post.Post;
-import com.threedollar.service.poll.dto.response.CursorResponse;
+import com.threedollar.service.common.dto.response.CursorResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
+@ToString
 @NoArgsConstructor
 @Getter
 public class PostAndCursorResponse {
@@ -46,13 +47,8 @@ public class PostAndCursorResponse {
 
     private static List<PostResponse> getPostResponse(List<Post> posts, String accountId) {
         return posts.stream()
-            .map(post -> PostResponse.of(post, isOwner(post, accountId)))
+            .map(post -> PostResponse.of(post, accountId))
             .collect(Collectors.toList());
     }
-
-    private static boolean isOwner(Post post, String accountId) {
-        return Objects.equals(post.getAccountId(), accountId);
-    }
-
 
 }

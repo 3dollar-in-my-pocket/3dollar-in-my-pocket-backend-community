@@ -7,7 +7,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PollServiceHelper {
+class PollServiceHelper {
 
     public static Poll getPollByIdAndAccountTypeAndWorkspaceId(PollRepository pollRepository, Long pollId, String accountId, String targetId, String workspaceId) {
         Poll poll = pollRepository.findByPollIdAndAccountIdAndTargetIdAndWorkspaceId(pollId, accountId, targetId, workspaceId);

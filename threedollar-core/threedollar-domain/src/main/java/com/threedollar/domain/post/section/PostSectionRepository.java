@@ -1,4 +1,4 @@
-package com.threedollar.domain.post.postsection;
+package com.threedollar.domain.post.section;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

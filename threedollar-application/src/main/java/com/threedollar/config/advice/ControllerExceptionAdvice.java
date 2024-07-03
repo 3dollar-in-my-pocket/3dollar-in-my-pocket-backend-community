@@ -4,12 +4,16 @@ import com.threedollar.common.dto.response.ApiResponse;
 import com.threedollar.common.exception.BaseException;
 import com.threedollar.common.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.threedollar.common.exception.ErrorCode.E400_INVALID;
 
@@ -20,8 +24,11 @@ public class ControllerExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     private ApiResponse<Object> handleBadRequest(BindException e) {
-        log.error(e.getMessage(), e);
-        return ApiResponse.error(E400_INVALID, e.getMessage());
+        List<String> reasons = e.getBindingResult().getFieldErrors().stream()
+            .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+            .collect(Collectors.toList());
+        log.warn(StringUtils.join(reasons, ", "), e);
+        return ApiResponse.error(E400_INVALID, reasons);
     }
 
     @ExceptionHandler(BaseException.class)

@@ -4,7 +4,6 @@ X-Community-Api-Key: {{api_key}}
 Content-Type: application/json
 
 {
-      "title": "오늘은 휴일입니다",
       "content": "정기적인 휴일입니다.",
       "sections": [
        {

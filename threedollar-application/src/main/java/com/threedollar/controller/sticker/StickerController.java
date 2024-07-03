@@ -5,7 +5,7 @@ import com.threedollar.config.interceptor.ApiKeyContext;
 import com.threedollar.config.resolver.RequestApiKey;
 import com.threedollar.domain.sticker.StickerGroup;
 import com.threedollar.service.sticker.StickerFacadeService;
-import com.threedollar.service.sticker.dto.response.TargetStickerAction;
+import com.threedollar.service.sticker.dto.response.TargetStickerResponse;
 import com.threedollar.service.sticker.dto.request.AddStickerActionRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -48,10 +48,10 @@ public class StickerController {
 
     @Operation(summary = "[스티커] 타겟들에 대한 스티커들을 조회합니다")
     @GetMapping("/v1/sticker-group/{stickerGroup}/stickers")
-    public ApiResponse<List<TargetStickerAction>> getTargetStickerActions(@PathVariable StickerGroup stickerGroup,
-                                                                          @RequestApiKey ApiKeyContext workspaceId,
-                                                                          @RequestParam Set<String> targetIds,
-                                                                          @RequestParam(required = false) String accountId) {
+    public ApiResponse<List<TargetStickerResponse>> getTargetStickerActions(@PathVariable StickerGroup stickerGroup,
+                                                                            @RequestApiKey ApiKeyContext workspaceId,
+                                                                            @RequestParam Set<String> targetIds,
+                                                                            @RequestParam(required = false) String accountId) {
         return ApiResponse.success(stickerFacadeService.getTargetStickers(stickerGroup, workspaceId.getWorkspaceId(), accountId, targetIds));
     }
 

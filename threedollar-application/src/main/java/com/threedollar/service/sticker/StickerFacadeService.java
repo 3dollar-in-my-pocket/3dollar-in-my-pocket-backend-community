@@ -3,7 +3,7 @@ package com.threedollar.service.sticker;
 import com.threedollar.common.exception.NotFoundException;
 import com.threedollar.domain.sticker.Sticker;
 import com.threedollar.domain.sticker.StickerGroup;
-import com.threedollar.service.sticker.dto.response.TargetStickerAction;
+import com.threedollar.service.sticker.dto.response.TargetStickerResponse;
 import com.threedollar.service.sticker.dto.request.AddStickerActionRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,7 +38,7 @@ public class StickerFacadeService {
     }
 
 
-    public List<TargetStickerAction> getTargetStickers(@NotNull StickerGroup stickerGroup, @NotBlank String workspaceId, String accountId, Set<String> targetIds) {
+    public List<TargetStickerResponse> getTargetStickers(@NotNull StickerGroup stickerGroup, @NotBlank String workspaceId, String accountId, Set<String> targetIds) {
         List<Sticker> stickers = stickerService.getStickersByStickerGroupAndWorkspaceId(stickerGroup, workspaceId);
         return stickerActionService.getStickerActionResponse(stickerGroup, workspaceId, accountId, targetIds, stickers);
     }
@@ -56,6 +56,6 @@ public class StickerFacadeService {
         return stickerIds;
     }
 
-    
+
 
 }

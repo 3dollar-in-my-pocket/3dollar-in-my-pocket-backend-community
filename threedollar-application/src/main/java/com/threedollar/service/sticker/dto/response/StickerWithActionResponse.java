@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class StickerInfoDetail {
+public class StickerWithActionResponse {
 
     private String stickerName;
 
@@ -18,18 +18,18 @@ public class StickerInfoDetail {
     private boolean selectedByMe;
 
     @Builder
-    public StickerInfoDetail(String stickerName, Long stickerCount, String imageUrl, boolean selectedByMe) {
+    public StickerWithActionResponse(String stickerName, Long stickerCount, String imageUrl, boolean selectedByMe) {
         this.stickerName = stickerName;
         this.stickerCount = Math.max(stickerCount, 0);
         this.imageUrl = imageUrl;
         this.selectedByMe = selectedByMe;
     }
 
-    public static StickerInfoDetail of(Sticker sticker, Long stickerCount, boolean isSelected) {
+    public static StickerWithActionResponse of(Sticker sticker, Long stickerCount, boolean isSelected) {
         if (sticker == null) {
             return nullOf();
         }
-        return StickerInfoDetail.builder()
+        return StickerWithActionResponse.builder()
                 .stickerName(sticker.getName())
                 .imageUrl(sticker.getImageUrl())
                 .stickerCount(stickerCount)
@@ -37,8 +37,8 @@ public class StickerInfoDetail {
                 .build();
     }
 
-    public static StickerInfoDetail nullOf() {
-        return StickerInfoDetail.builder()
+    public static StickerWithActionResponse nullOf() {
+        return StickerWithActionResponse.builder()
             .stickerName(null)
             .imageUrl(null)
             .stickerCount(null)

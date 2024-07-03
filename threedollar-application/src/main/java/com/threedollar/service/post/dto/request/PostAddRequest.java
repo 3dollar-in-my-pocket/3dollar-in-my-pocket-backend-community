@@ -1,18 +1,22 @@
-package com.threedollar.service.post.request;
+package com.threedollar.service.post.dto.request;
 
 
 import com.threedollar.domain.post.Post;
 import com.threedollar.domain.post.PostGroup;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
+@ToString
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostAddRequest {
 
     private Long parentId;
@@ -23,7 +27,7 @@ public class PostAddRequest {
     private String content;
 
     @NotNull
-    private List<PostSectionRequest> sections;
+    private List<@Valid PostSectionRequest> sections;
 
     @Builder
     public PostAddRequest(Long parentId, String title, String content, List<PostSectionRequest> sections) {

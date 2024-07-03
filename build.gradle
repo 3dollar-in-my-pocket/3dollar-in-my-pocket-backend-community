@@ -7,6 +7,7 @@ buildscript {
         // Swagger
         springDocVersion = "2.6.0"
         findBugsJsr305Version = "3.0.2"
+        sentryVersion = "7.11.0"
     }
 }
 

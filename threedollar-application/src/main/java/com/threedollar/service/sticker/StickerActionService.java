@@ -8,8 +8,8 @@ import com.threedollar.domain.stickeraction.StickerAction;
 import com.threedollar.domain.stickeraction.StickerActionCountKey;
 import com.threedollar.domain.stickeraction.repository.StickerActionCountRepository;
 import com.threedollar.domain.stickeraction.repository.StickerActionRepository;
-import com.threedollar.service.sticker.dto.response.StickerInfoDetail;
-import com.threedollar.service.sticker.dto.response.TargetStickerAction;
+import com.threedollar.service.sticker.dto.response.StickerWithActionResponse;
+import com.threedollar.service.sticker.dto.response.TargetStickerResponse;
 import com.threedollar.service.sticker.dto.request.AddStickerActionRequest;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -61,11 +61,11 @@ public class StickerActionService {
     }
 
     @Transactional(readOnly = true)
-    public List<TargetStickerAction> getStickerActionResponse(StickerGroup stickerGroup,
-                                                              String workspaceId,
-                                                              @Nullable String accountId,
-                                                              Set<String> targetIds,
-                                                              List<Sticker> stickers) {
+    public List<TargetStickerResponse> getStickerActionResponse(StickerGroup stickerGroup,
+                                                                String workspaceId,
+                                                                @Nullable String accountId,
+                                                                Set<String> targetIds,
+                                                                List<Sticker> stickers) {
 
 
 
@@ -73,18 +73,18 @@ public class StickerActionService {
 
         return targetIds.stream()
             .map(targetId -> {
-                List<StickerInfoDetail> stickerInfoDetails = stickers.stream()
+                List<StickerWithActionResponse> stickerWithActionResponses = stickers.stream()
                     .sorted(Comparator.comparingInt(Sticker::getPriority))
                     .map(
                         sticker -> {
                             long count = stickerCountRepository.getStickerCount(StickerActionCountKey.of(stickerGroup, workspaceId, targetId, sticker.getId()));
                             StickerAction stickerAction = targetIdActedByMe.getOrDefault(targetId, null);
-                            return StickerInfoDetail.of(sticker, count,
+                            return StickerWithActionResponse.of(sticker, count,
                                 targetedByMe(stickerAction, sticker));
                         })
                     .toList();
-                return TargetStickerAction.builder()
-                    .stickers(stickerInfoDetails)
+                return TargetStickerResponse.builder()
+                    .stickers(stickerWithActionResponses)
                     .targetId(targetId)
                     .build();
             })

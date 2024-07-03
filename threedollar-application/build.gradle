@@ -6,7 +6,7 @@ jar {
 }
 
 application {
-    mainClass.set("com.threedollar.ThreedollarServiceApplication")
+    mainClass.set("com.threedollar.CommunityApiApplication")
 }
 
 dependencies {
@@ -22,7 +22,11 @@ dependencies {
 
     implementation("com.google.code.findbugs:jsr305:${findBugsJsr305Version}")
 
+    // Cache
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation('com.github.ben-manes.caffeine:caffeine')
+
     // Sentry
-    implementation 'io.sentry:sentry-spring-boot-starter-jakarta:7.11.0'
-    implementation("io.sentry:sentry-logback:7.10.0")
+    implementation("io.sentry:sentry-spring-boot-starter-jakarta:${sentryVersion}")
+    implementation("io.sentry:sentry-logback:${sentryVersion}")
 }

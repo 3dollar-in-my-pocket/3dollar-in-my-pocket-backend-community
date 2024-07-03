@@ -1,4 +1,4 @@
-package com.threedollar.domain.post;
+package com.threedollar.domain.post.section;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

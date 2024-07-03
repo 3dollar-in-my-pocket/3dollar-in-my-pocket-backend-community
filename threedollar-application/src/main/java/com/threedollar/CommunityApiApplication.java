@@ -6,10 +6,10 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @EnableCaching
 @SpringBootApplication(scanBasePackages = {"com.threedollar"})
-public class ThreedollarServiceApplication {
+public class CommunityApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ThreedollarServiceApplication.class, args);
+        SpringApplication.run(CommunityApiApplication.class, args);
     }
 
 }

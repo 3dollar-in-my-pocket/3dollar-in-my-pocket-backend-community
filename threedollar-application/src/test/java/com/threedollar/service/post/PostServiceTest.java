@@ -4,10 +4,10 @@ import com.threedollar.IntegrationTest;
 import com.threedollar.domain.post.Post;
 import com.threedollar.domain.post.PostGroup;
 import com.threedollar.domain.post.PostStatus;
-import com.threedollar.domain.post.SectionType;
+import com.threedollar.domain.post.section.SectionType;
 import com.threedollar.domain.post.repository.PostRepository;
-import com.threedollar.service.post.request.PostAddRequest;
-import com.threedollar.service.post.request.PostSectionRequest;
+import com.threedollar.service.post.dto.request.PostAddRequest;
+import com.threedollar.service.post.dto.request.PostSectionRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class PostServiceTest extends IntegrationTest {
         String targetId = "store:33";
 
         // when
-        postService.addPost(postGroup, targetId, request, workspaceId, accountId);
+        postService.addPost(workspaceId, postGroup, targetId, request, accountId);
 
         // then
         Post post = postRepository.findAll().get(0);
