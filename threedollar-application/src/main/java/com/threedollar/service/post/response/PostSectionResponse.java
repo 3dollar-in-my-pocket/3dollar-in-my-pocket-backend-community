@@ -12,16 +12,13 @@ public class PostSectionResponse {
 
     private SectionType sectionType;
 
-    private int priority;
-
     private String url;
 
     private double ratio;
 
     @Builder
-    public PostSectionResponse(SectionType sectionType, int priority, String url, double ratio) {
+    public PostSectionResponse(SectionType sectionType, String url, double ratio) {
         this.sectionType = sectionType;
-        this.priority = priority;
         this.url = url;
         this.ratio = ratio;
     }
@@ -30,7 +27,6 @@ public class PostSectionResponse {
 
         return PostSectionResponse.builder()
             .sectionType(section.getSectionType())
-            .priority(section.getPriority())
             .url(section.getUrl())
             .ratio(section.getRatio())
             .build();

@@ -3,6 +3,7 @@ package com.threedollar.service.post.request;
 
 import com.threedollar.domain.post.Post;
 import com.threedollar.domain.post.PostGroup;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -23,7 +24,7 @@ public class PostAddRequest {
     private String content;
 
     @NotNull
-    private List<PostSectionRequest> sections;
+    private List<@Valid PostSectionRequest> sections;
 
     @Builder
     public PostAddRequest(Long parentId, String title, String content, List<PostSectionRequest> sections) {

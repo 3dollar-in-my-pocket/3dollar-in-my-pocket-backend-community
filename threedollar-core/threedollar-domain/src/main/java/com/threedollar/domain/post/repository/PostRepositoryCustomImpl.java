@@ -6,6 +6,7 @@ import com.threedollar.domain.post.Post;
 import com.threedollar.domain.post.PostGroup;
 import com.threedollar.domain.post.PostStatus;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.List;
 
@@ -18,8 +19,23 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
+    public Post findByIdAndWorkspaceIdAndGroupAndTargetId(String workspaceId, PostGroup group, String targetId, Long postId) {
+        return jpaQueryFactory.selectFrom(post)
+            .leftJoin(post.postSection, postSection).fetchJoin()
+            .where(
+                post.workspaceId.eq(workspaceId),
+                post.id.eq(postId),
+                post.postGroup.eq(group),
+                post.targetId.eq(targetId),
+                post.status.eq(PostStatus.ACTIVE)
+            )
+            .fetchOne();
+    }
+
+    @Override
     public Post findByIdAndWorkspaceIdAndAccountIdAndGroupAndTargetId(Long postId, String accountId, String workspaceId, PostGroup postGroup, String targetId) {
         return jpaQueryFactory.selectFrom(post)
+            .leftJoin(post.postSection, postSection).fetchJoin()
             .where(
                 existsAccountId(accountId),
                 post.workspaceId.eq(workspaceId),
@@ -54,8 +70,8 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Long postCountByWorkspaceIdAndPostGroupAndTargetId(String workspaceId, PostGroup postGroup, String targetId) {
-        return jpaQueryFactory.select(post.count())
+    public long postCountByWorkspaceIdAndPostGroupAndTargetId(String workspaceId, PostGroup postGroup, String targetId) {
+        Long count = jpaQueryFactory.select(post.count())
             .from(post)
             .where(
                 post.workspaceId.eq(workspaceId),
@@ -63,6 +79,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 post.targetId.eq(targetId),
                 post.status.eq(PostStatus.ACTIVE)
             ).fetchOne();
+        return ObjectUtils.defaultIfNull(count, 0L);
     }
 
     private BooleanExpression existsCursor(Long cursor) {

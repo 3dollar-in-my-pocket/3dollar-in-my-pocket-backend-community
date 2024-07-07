@@ -1,6 +1,7 @@
 package com.threedollar.service.post.request;
 
 import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,17 +16,17 @@ public class PostUpdateRequest {
     @Nullable
     private String title;
 
-    @Nullable
+    @NotBlank
     private String content;
 
     @NotNull
-    private List<PostSectionRequest> postSections;
+    private List<PostSectionRequest> sections;
 
     @Builder
-    public PostUpdateRequest(String title, String content, List<PostSectionRequest> postSections) {
+    public PostUpdateRequest(String title, String content, List<PostSectionRequest> sections) {
         this.title = title;
         this.content = content;
-        this.postSections = postSections;
+        this.sections = sections;
     }
 
 

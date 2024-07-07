@@ -41,3 +41,34 @@ CREATE TABLE `api_key`
     PRIMARY KEY(`id`),
     UNIQUE KEY (`api_key`)
 ) ENGINE = InnoDB;
+
+create table `post`
+(
+    id           BIGINT AUTO_INCREMENT PRIMARY KEY ,
+    workspace_id varchar(50)       NOT NULL,
+    post_group   varchar(30)        NOT NULL,
+    target_id    varchar(50)       NOT NULL,
+    parent_id    bigint             DEFAULT NULL,
+    account_id   varchar(100)       NOT NULL ,
+    title        varchar(100)       DEFAULT NULL,
+    content      varchar(3000)      NOT NULL,
+    status       varchar(30)        NOT NULL,
+    created_at   datetime(6)        DEFAULT  NULL,
+    updated_at   datetime(6),
+    PRIMARY KEY(`id`),
+    KEY (`workspace_id`, `post_group`, `target_id`, `status`)
+);
+
+
+create table `post_section`
+(
+    id           bigint auto_increment,
+    post_id      bigint       not null,
+    url          varchar(500) not null,
+    ratio        double       not null,
+    section_type varchar(30) not null,
+    created_at   datetime(6)  null,
+    updated_at   datetime(6)  null,
+    PRIMARY KEY(`id`),
+    FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
+);

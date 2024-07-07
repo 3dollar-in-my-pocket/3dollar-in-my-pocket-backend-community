@@ -8,6 +8,13 @@ import java.util.List;
 
 public interface PostRepositoryCustom {
 
+    Post findByIdAndWorkspaceIdAndGroupAndTargetId(
+        String workspaceId,
+        PostGroup group,
+        String targetId,
+        Long postId
+    );
+
     Post findByIdAndWorkspaceIdAndAccountIdAndGroupAndTargetId(Long postId,
                                                                @Nullable String accountId,
                                                                String workspaceId,
@@ -20,7 +27,7 @@ public interface PostRepositoryCustom {
                                                                         @Nullable Long cursor,
                                                                         int size);
 
-    Long postCountByWorkspaceIdAndPostGroupAndTargetId(String workspaceId,
-                                                          PostGroup postGroup,
-                                                          String targetId);
+    long postCountByWorkspaceIdAndPostGroupAndTargetId(String workspaceId,
+                                                       PostGroup postGroup,
+                                                       String targetId);
 }

@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Collections;
+import java.util.List;
+
 @EqualsAndHashCode
 @ToString
 @Getter
@@ -22,30 +25,30 @@ public class ApiResponse<T> {
 
     private String error;
 
-    private String message;
-
     private T data;
 
-    private ApiResponse(boolean ok, String error, String message, T data) {
+    private List<String> reasons;
+
+    private ApiResponse(boolean ok, String error, T data, List<String> reason) {
         this.ok = ok;
         this.error = error;
-        this.message = message;
+        this.reasons = reason;
         this.data = data;
     }
 
     @NotNull
     public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse<>(true, null, null, data);
+        return new ApiResponse<>(true, null, data, Collections.emptyList());
     }
 
     @NotNull
     public static <T> ApiResponse<T> error(ErrorCode errorCode) {
-        return new ApiResponse<>(false, errorCode.getCode(), errorCode.getMessage(), null);
+        return new ApiResponse<>(false, errorCode.getCode(), null, Collections.emptyList());
     }
 
     @NotNull
-    public static <T> ApiResponse<T> error(ErrorCode errorCode, String message) {
-        return new ApiResponse<>(false, errorCode.getCode(), message, null);
+    public static <T> ApiResponse<T> error(ErrorCode errorCode, List<String> reasons) {
+        return new ApiResponse<>(false, errorCode.getCode(), null, reasons);
     }
 
 

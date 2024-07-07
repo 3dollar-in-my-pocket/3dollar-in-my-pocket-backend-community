@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -20,10 +23,11 @@ import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS
 public class JsonUtils {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .configure(WRITE_DATES_AS_TIMESTAMPS, false)
-            .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
-            .configure(FAIL_ON_EMPTY_BEANS, false);
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .configure(WRITE_DATES_AS_TIMESTAMPS, false)
+        .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
+        .configure(FAIL_ON_EMPTY_BEANS, false)
+        .registerModules(new ParameterNamesModule(), new Jdk8Module(), new JavaTimeModule());
 
     public static <T> T toObject(String input, Class<T> toClass) {
         try {

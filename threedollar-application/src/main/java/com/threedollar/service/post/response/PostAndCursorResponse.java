@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -46,13 +45,8 @@ public class PostAndCursorResponse {
 
     private static List<PostResponse> getPostResponse(List<Post> posts, String accountId) {
         return posts.stream()
-            .map(post -> PostResponse.of(post, isOwner(post, accountId)))
+            .map(post -> PostResponse.of(post, accountId))
             .collect(Collectors.toList());
     }
-
-    private static boolean isOwner(Post post, String accountId) {
-        return Objects.equals(post.getAccountId(), accountId);
-    }
-
 
 }

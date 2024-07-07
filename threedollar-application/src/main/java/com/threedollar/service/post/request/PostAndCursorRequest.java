@@ -14,7 +14,7 @@ public class PostAndCursorRequest {
     private Long cursor;
 
     @Min(0)
-    @Max(30)
+    @Max(50)
     private int size;
 
     @Nullable
