@@ -44,7 +44,7 @@ CREATE TABLE `api_key`
 
 create table `post`
 (
-    id           BIGINT AUTO_INCREMENT PRIMARY KEY ,
+    id           BIGINT AUTO_INCREMENT PRIMARY KEY,
     workspace_id varchar(50)       NOT NULL,
     post_group   varchar(30)        NOT NULL,
     target_id    varchar(50)       NOT NULL,
@@ -55,20 +55,18 @@ create table `post`
     status       varchar(30)        NOT NULL,
     created_at   datetime(6)        DEFAULT  NULL,
     updated_at   datetime(6),
-    PRIMARY KEY(`id`),
     KEY (`workspace_id`, `post_group`, `target_id`, `status`)
 );
 
 
 create table `post_section`
 (
-    id           bigint auto_increment,
+    id           bigint auto_increment PRIMARY KEY,
     post_id      bigint       not null,
     url          varchar(500) not null,
     ratio        double       not null,
     section_type varchar(30) not null,
     created_at   datetime(6)  null,
     updated_at   datetime(6)  null,
-    PRIMARY KEY(`id`),
     FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
 );
