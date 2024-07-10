@@ -1,4 +1,4 @@
-package com.threedollar.service.poll.dto.response;
+package com.threedollar.common.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.threedollar.service.post.response;
 
 import com.threedollar.domain.post.Post;
-import com.threedollar.service.poll.dto.response.CursorResponse;
+import com.threedollar.common.dto.response.CursorResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,6 @@
 package com.threedollar.service.poll.dto.response;
 
+import com.threedollar.common.dto.response.CursorResponse;
 import com.threedollar.domain.options.PollOption;
 import com.threedollar.domain.poll.Poll;
 import lombok.Builder;

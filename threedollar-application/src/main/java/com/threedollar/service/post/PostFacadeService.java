@@ -18,8 +18,7 @@ public class PostFacadeService {
 
     private final PostService postService;
 
-    public Long addPost(
-                        PostGroup postGroup,
+    public Long addPost(PostGroup postGroup,
                         PostAddRequest request,
                         @NotBlank String workspaceId,
                         @NotBlank String accountId,
