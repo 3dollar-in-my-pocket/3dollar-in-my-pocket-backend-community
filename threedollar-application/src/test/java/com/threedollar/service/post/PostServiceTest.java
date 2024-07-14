@@ -8,6 +8,7 @@ import com.threedollar.domain.post.SectionType;
 import com.threedollar.domain.post.repository.PostRepository;
 import com.threedollar.service.post.request.PostAddRequest;
 import com.threedollar.service.post.request.PostSectionRequest;
+import com.threedollar.service.post.request.PostUpdateRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,32 @@ public class PostServiceTest extends IntegrationTest {
 
     }
 
+    @Test
+    void 소식을_변경하고자_하는_내용이_있을때만_변경됩니다() {
+        // given
+        Post post = createPost();
+        String workspaceId = post.getWorkspaceId();
+        String accountId = post.getAccountId();
+        String targetId = post.getTargetId();
+        PostGroup postGroup = post.getPostGroup();
+
+        String newTitle = "newTitle";
+        PostUpdateRequest request = PostUpdateRequest.builder()
+            .title(newTitle)
+            .content(null)
+            .sections(null)
+            .build();
+
+        // when
+        postService.update(workspaceId, accountId, post.getId(), postGroup, targetId, request);
+
+        // then
+        List<Post> posts = postRepository.findAll();
+        assertThat(posts).hasSize(1);
+        assertThat(posts.get(0).getTitle()).isEqualTo(newTitle);
+        assertThat(posts.get(0).getContent()).isEqualTo(posts.get(0).getContent());
+    }
+
     private void assertPost(Post post, PostGroup postGroup, String title, String content, String accountId, String workspaceId, String targetId) {
 
         assertThat(post.getPostGroup()).isEqualTo(postGroup);
@@ -98,6 +125,15 @@ public class PostServiceTest extends IntegrationTest {
             .content(content)
             .sections(List.of(postSectionRequest))
             .build();
+    }
+
+    private Post createPost() {
+        String workspaceId = "three-dollar-dev";
+        String accountId = "user";
+        PostGroup postGroup = PostGroup.STORE_NEWS;
+        String targetId = "user222";
+        PostAddRequest request = newRequest();
+        return postRepository.save(request.toEntity(postGroup, workspaceId, accountId, targetId));
     }
 
 }

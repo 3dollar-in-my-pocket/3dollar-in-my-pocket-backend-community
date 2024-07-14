@@ -3,6 +3,7 @@ package com.threedollar.service.post;
 import com.threedollar.common.exception.NotFoundException;
 import com.threedollar.domain.post.Post;
 import com.threedollar.domain.post.PostGroup;
+import com.threedollar.domain.post.postsection.PostSection;
 import com.threedollar.domain.post.repository.PostRepository;
 import com.threedollar.service.post.request.PostAddRequest;
 import com.threedollar.service.post.request.PostUpdateRequest;
@@ -89,11 +90,19 @@ public class PostService {
                                PostUpdateRequest request) {
 
         Post post = getPostByIdAndAccountId(workspaceId, postGroup, targetId, postId, accountId);
-        post.update(request.getTitle(), request.getContent(), request.getSections().stream()
-            .map(r -> r.toEntity(post))
-            .collect(Collectors.toList()));
+        post.update(request.getTitle(), request.getContent(), getPostSections(request, post));
         return PostResponse.of(post, accountId);
     }
+
+    private List<PostSection> getPostSections(PostUpdateRequest request, Post post) {
+        if (request.getSections() == null) {
+            return null;
+        }
+        return request.getSections().stream()
+            .map(r -> r.toEntity(post))
+            .collect(Collectors.toList());
+    }
+
 
     private Post getPostByIdAndAccountId(String workspaceId,
                                          PostGroup postGroup,
