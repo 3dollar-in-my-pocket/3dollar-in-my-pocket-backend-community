@@ -7,6 +7,7 @@ on:
         description: "Release Version"
         required: true
         type: string
+        default: 'v1.0.0'
 
 jobs:
   deploy:
@@ -49,12 +50,8 @@ jobs:
       - name: Setup Docker compose
         run: docker-compose -f "docker/test/docker-compose.yml" up -d
 
-
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@66535aaf56f831b35e3a8481c9c99b665b84dd45
-        with:
-          arguments: build
-
+      - name: Test
+        run: ./gradlew test
 
       - name: Build Community API Image
         id: build
@@ -62,8 +59,9 @@ jobs:
           DOCKER_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           DOCKER_REPOSITORY: threedollar-community-api
           IMAGE_TAG: ${{  steps.version.outputs.version }}
+          PINPOINT_COLLECTOR_IP: ${{ secrets.PINPOINT_COLLECTOR_IP_DEV }}
         run: |
-          docker build -t $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG -f ./threedollar-application/Dockerfile .
+          docker build -t $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG --build-arg PROFILE=DEV --build-arg COLLECTOR_IP=${PINPOINT_COLLECTOR_IP} -f ./threedollar-application/Dockerfile .
           docker tag $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
           docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG
           docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:latest
