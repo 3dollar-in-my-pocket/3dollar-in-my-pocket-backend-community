@@ -93,6 +93,7 @@ public class PostServiceTest extends IntegrationTest {
         assertThat(posts).hasSize(1);
         assertThat(posts.get(0).getTitle()).isEqualTo(newTitle);
         assertThat(posts.get(0).getContent()).isEqualTo(posts.get(0).getContent());
+        assertThat(posts.get(0).getPostSection()).isEqualTo(posts.get(0).getPostSection());
     }
 
     private void assertPost(Post post, PostGroup postGroup, String title, String content, String accountId, String workspaceId, String targetId) {
