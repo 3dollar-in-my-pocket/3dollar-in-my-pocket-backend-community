@@ -16,14 +16,14 @@ Content-Type: application/json
 
 
 ### Post 수정
-PATCH {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post/3
+PATCH {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post/1?accountId=USER222
 X-Community-Api-Key: {{api_key}}
 Content-Type: application/json
 
 
 {
       "title": "오늘은 휴일입니다",
-      "content": "정기적인 휴일입니다.",
+      "content": "오늘은 피곤해요.",
       "postSections": [
        {
           "sectionType": "IMAGE",
@@ -50,3 +50,5 @@ Content-Type: application/json
 GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post-count
 X-Community-Api-Key: {{api_key}}
 Content-Type: application/json
+
+
