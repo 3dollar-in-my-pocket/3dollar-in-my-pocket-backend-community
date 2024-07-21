@@ -1,7 +1,7 @@
 buildscript {
     ext {
         // Spring
-        springBootVersion = "3.3.1"
+        springBootVersion = "3.3.2"
         springDependencyManagementVersion = "1.1.6"
 
         // Swagger
