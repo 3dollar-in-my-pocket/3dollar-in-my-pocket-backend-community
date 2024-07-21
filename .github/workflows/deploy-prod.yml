@@ -69,6 +69,7 @@ jobs:
         env:
           DOCKER_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           DOCKER_REPOSITORY: 3dollar-community-api
+          IMAGE_TAG: ${{  steps.version.outputs.version }}
           PINPOINT_COLLECTOR_IP: ${{ secrets.PINPOINT_COLLECTOR_IP_PROD }}
         run: |
           docker build -t $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG --build-arg PROFILE=PROD --build-arg COLLECTOR_IP=${PINPOINT_COLLECTOR_IP} -f ./threedollar-application/Dockerfile .
