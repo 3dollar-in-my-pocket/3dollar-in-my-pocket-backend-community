@@ -84,7 +84,7 @@ jobs:
           image: ${{ steps.build.outputs.image }}
 
       - name: Deploy to Amazon ECS service
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{  steps.render-api-container.outputs.task-definition  }}
           cluster: three-dollar-community-ecs
