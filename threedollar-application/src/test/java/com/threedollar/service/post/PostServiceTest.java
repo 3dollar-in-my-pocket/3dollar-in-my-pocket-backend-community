@@ -32,6 +32,19 @@ public class PostServiceTest extends IntegrationTest {
         postRepository.deleteAll();
     }
 
+
+    @Test
+    void 소식이_있는지_없는지_확인한다() {
+        // given
+        Post post = createPost();
+
+        // when
+        boolean exist = postService.existsPost(post.getPostGroup(), post.getId(), post.getAccountId(), post.getTargetId());
+
+        // then
+        assertThat(exist).isEqualTo(true);
+    }
+
     @Test
     void 사장님이_소식을_작성한다() {
         // given

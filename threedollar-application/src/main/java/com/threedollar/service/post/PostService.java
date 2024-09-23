@@ -72,6 +72,9 @@ public class PostService {
                                     PostGroup postGroup,
                                     String targetId) {
         Post post = postRepository.findByIdAndWorkspaceIdAndGroupAndTargetId(workspaceId, postGroup, targetId, postId);
+        if (post == null) {
+            throw new NotFoundException(String.format("(%s)에 해당하는 post 는 존재하지 않습니다.", postId));
+        }
         return PostResponse.of(post, accountId);
     }
 
@@ -92,6 +95,16 @@ public class PostService {
         Post post = getPostByIdAndAccountId(workspaceId, postGroup, targetId, postId, accountId);
         post.update(request.getTitle(), request.getContent(), getPostSections(request, post));
         return PostResponse.of(post, accountId);
+    }
+
+    @Transactional
+    public boolean existsPost(PostGroup postGroup,
+        Long postId,
+        String accountId,
+        String targetId) {
+
+        return postRepository.existPostByPostGroupAndPostIdAndAccountIdAndTargetId(postGroup, postId, accountId, targetId);
+
     }
 
     private List<PostSection> getPostSections(PostUpdateRequest request, Post post) {

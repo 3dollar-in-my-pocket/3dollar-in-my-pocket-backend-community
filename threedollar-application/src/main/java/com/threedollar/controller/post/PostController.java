@@ -5,6 +5,7 @@ import com.threedollar.config.interceptor.ApiKeyContext;
 import com.threedollar.config.resolver.RequestApiKey;
 import com.threedollar.domain.post.PostGroup;
 import com.threedollar.service.post.PostFacadeService;
+import com.threedollar.service.post.PostService;
 import com.threedollar.service.post.request.PostAddRequest;
 import com.threedollar.service.post.request.PostAndCursorRequest;
 import com.threedollar.service.post.request.PostUpdateRequest;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
 
     private final PostFacadeService postFacadeService;
+    private final PostService postService;
 
     @Operation(summary = "[소식] 소식을 작성합니다.", description = "유저 혹은 사장님이 소식을 작성합니다.")
     @PostMapping("/v1/post-group/{postGroup}/target/{targetId}/post")
@@ -92,6 +94,17 @@ public class PostController {
 
         return ApiResponse.success(postFacadeService.updatePost(workspaceId.getWorkspaceId(), accountId, postGroup, postId, targetId, request));
 
+    }
+
+    @Operation(summary = "[소식] 소식이 있는지 확인합니다.", description = "스티커 저장시 소식이 있는 지 확인합니다")
+    @GetMapping("/v1/post-group/{postGroup}/target/{targetId}/post/{postId}/exist")
+    public ApiResponse<Boolean> validatePost(
+        @PathVariable PostGroup postGroup,
+        @PathVariable Long postId,
+        @RequestParam(required = false) String accountId,
+        @PathVariable String targetId
+        ) {
+        return ApiResponse.success(postService.existsPost(postGroup, postId, accountId, targetId));
     }
 
 
