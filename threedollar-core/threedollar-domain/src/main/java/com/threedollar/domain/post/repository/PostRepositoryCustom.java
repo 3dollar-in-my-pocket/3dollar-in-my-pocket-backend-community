@@ -6,6 +6,7 @@ import jakarta.annotation.Nullable;
 
 import java.util.List;
 
+
 public interface PostRepositoryCustom {
 
     Post findByIdAndWorkspaceIdAndGroupAndTargetId(
@@ -30,4 +31,9 @@ public interface PostRepositoryCustom {
     long postCountByWorkspaceIdAndPostGroupAndTargetId(String workspaceId,
                                                        PostGroup postGroup,
                                                        String targetId);
+
+    boolean existPostByPostGroupAndPostIdAndAccountIdAndTargetId(PostGroup postGroup,
+        Long postId,
+        String accountId,
+        String targetId);
 }
