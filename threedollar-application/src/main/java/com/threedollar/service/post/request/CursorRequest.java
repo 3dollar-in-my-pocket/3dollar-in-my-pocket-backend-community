@@ -18,7 +18,7 @@ public class CursorRequest {
     @Max(30)
     private int size;
 
-    public CursorRequest(Long cursor, int size) {
+    public CursorRequest(@Nullable Long cursor, int size) {
         this.cursor = cursor;
         this.size = size;
     }
