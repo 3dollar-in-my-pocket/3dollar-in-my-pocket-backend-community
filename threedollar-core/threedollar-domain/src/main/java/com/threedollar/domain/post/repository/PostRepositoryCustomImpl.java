@@ -48,7 +48,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public List<Post> findByPostGroupAndWorkspaceIdAndTargetIdAndCursorAndSize(PostGroup postGroup, String workspaceId, String targetId, Long cursor, int size) {
+    public List<Post> findByPostGroupAndWorkspaceIdAndTargetIdAndCursorAndSizeDesc(PostGroup postGroup, String workspaceId, String targetId, Long cursor, int size) {
         List<Long> postIds = jpaQueryFactory.select(post.id)
             .from(post)
             .where(
@@ -68,6 +68,31 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
             .orderBy(post.id.desc())
             .fetch();
     }
+
+    @Override
+    public List<Post> findByPostGroupAndWorkspaceIdAndTargetIdAndCursorAndSizeAsc(
+        PostGroup postGroup,
+        String workspaceId, String targetId, Long cursor, int size) {
+        List<Long> postIds = jpaQueryFactory.select(post.id)
+            .from(post)
+            .where(
+                post.id.gt(cursor),
+                post.workspaceId.eq(workspaceId),
+                post.postGroup.eq(postGroup),
+                post.targetId.eq(targetId),
+                post.status.eq(PostStatus.ACTIVE)
+            )
+            .orderBy(post.id.asc())
+            .limit(size)
+            .fetch();
+
+        return jpaQueryFactory.selectFrom(post)
+            .where(post.id.in(postIds))
+            .leftJoin(post.postSection, postSection).fetchJoin()
+            .orderBy(post.id.asc())
+            .fetch();
+    }
+
 
     @Override
     public long postCountByWorkspaceIdAndPostGroupAndTargetId(String workspaceId, PostGroup postGroup, String targetId) {

@@ -23,10 +23,11 @@ public class PostAndCursorResponse {
         this.posts = posts;
     }
 
-    public static PostAndCursorResponse hasNext(List<Post> posts, String accountId) {
+    public static PostAndCursorResponse hasMore(List<Post> posts, String accountId) {
         return PostAndCursorResponse.builder()
             .cursor(CursorResponse.builder()
                 .hasNext(true)
+                .hasMore(true)
                 .nextCursor(posts.get(posts.size() - 2).getId())
                 .build())
             .posts(getPostResponse(posts.subList(0, posts.size() - 1), accountId))
@@ -37,6 +38,7 @@ public class PostAndCursorResponse {
         return PostAndCursorResponse.builder()
             .cursor(CursorResponse.builder()
                 .hasNext(false)
+                .hasMore(false)
                 .nextCursor(null)
                 .build())
             .posts(getPostResponse(posts, accountId))

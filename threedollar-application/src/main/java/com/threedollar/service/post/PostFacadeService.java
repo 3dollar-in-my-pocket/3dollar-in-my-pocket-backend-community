@@ -1,6 +1,7 @@
 package com.threedollar.service.post;
 
 import com.threedollar.domain.post.PostGroup;
+import com.threedollar.service.post.request.CursorDirection;
 import com.threedollar.service.post.request.PostAddRequest;
 import com.threedollar.service.post.request.PostAndCursorRequest;
 import com.threedollar.service.post.request.PostUpdateRequest;
@@ -47,6 +48,7 @@ public class PostFacadeService {
             targetId,
             request.getAccountId(),
             request.getCursor(),
+            request.getCursorDirection(),
             request.getSize());
     }
 

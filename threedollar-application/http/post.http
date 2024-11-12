@@ -35,13 +35,14 @@ Content-Type: application/json
 
 
 ### Post 조회 (다건 조회)
-GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/posts?size=3
+GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/posts?size=5&cursorDirection=UP&cursor=
+    20
 X-Community-Api-Key: {{api_key}}
 Content-Type: application/json
 
 
 ### Post 단건 조회
-GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post/0
+GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post/2
 X-Community-Api-Key: {{api_key}}
 Content-Type: application/json
 
