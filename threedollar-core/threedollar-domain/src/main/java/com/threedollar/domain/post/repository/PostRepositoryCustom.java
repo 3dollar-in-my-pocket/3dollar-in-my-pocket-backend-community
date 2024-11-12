@@ -4,6 +4,8 @@ import com.threedollar.domain.post.Post;
 import com.threedollar.domain.post.PostGroup;
 import jakarta.annotation.Nullable;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 
@@ -22,11 +24,17 @@ public interface PostRepositoryCustom {
                                                                PostGroup group,
                                                                String targetId);
 
-    List<Post> findByPostGroupAndWorkspaceIdAndTargetIdAndCursorAndSize(PostGroup postGroup,
+    List<Post> findByPostGroupAndWorkspaceIdAndTargetIdAndCursorAndSizeDesc(PostGroup postGroup,
                                                                         String workspaceId,
                                                                         String targetId,
                                                                         @Nullable Long cursor,
                                                                         int size);
+
+    List<Post> findByPostGroupAndWorkspaceIdAndTargetIdAndCursorAndSizeAsc(PostGroup postGroup,
+        String workspaceId,
+        String targetId,
+        @NotNull Long cursor,
+        int size);
 
     long postCountByWorkspaceIdAndPostGroupAndTargetId(String workspaceId,
                                                        PostGroup postGroup,

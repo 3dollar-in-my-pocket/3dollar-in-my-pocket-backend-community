@@ -5,6 +5,7 @@ import com.threedollar.domain.post.Post;
 import com.threedollar.domain.post.PostGroup;
 import com.threedollar.domain.post.postsection.PostSection;
 import com.threedollar.domain.post.repository.PostRepository;
+import com.threedollar.service.post.request.CursorDirection;
 import com.threedollar.service.post.request.PostAddRequest;
 import com.threedollar.service.post.request.PostUpdateRequest;
 import com.threedollar.service.post.response.PostAndCursorResponse;
@@ -55,14 +56,26 @@ public class PostService {
                                                    String targetId,
                                                    String accountId,
                                                    Long cursor,
+                                                   CursorDirection cursorDirection,
                                                    int size) {
-        List<Post> posts = postRepository.findByPostGroupAndWorkspaceIdAndTargetIdAndCursorAndSize(postGroup, workspaceId, targetId, cursor, size + 1);
 
-        if (posts.isEmpty() || posts.size() <= size){
-            return PostAndCursorResponse.noMore(posts, accountId);
+        if (cursorDirection.equals(CursorDirection.UP)) {
+            if (cursor == null) {
+                throw new IllegalArgumentException("cursor 는 null 일 수 없습니다.");
+            }
+            List<Post> scrollUpPosts = postRepository.findByPostGroupAndWorkspaceIdAndTargetIdAndCursorAndSizeAsc(postGroup, workspaceId, targetId, cursor, size + 1);
+            return getPostAndCursorResponse(scrollUpPosts, size, accountId);
         }
-        return PostAndCursorResponse.hasNext(posts, accountId);
+        List<Post> scrollDownPosts = postRepository.findByPostGroupAndWorkspaceIdAndTargetIdAndCursorAndSizeDesc(postGroup, workspaceId, targetId, cursor, size + 1);
+        return getPostAndCursorResponse(scrollDownPosts, size, accountId);
 
+    }
+
+    private PostAndCursorResponse getPostAndCursorResponse(List<Post> scrolledPosts, int size, String accountId) {
+        if (scrolledPosts.isEmpty() || scrolledPosts.size() <= size){
+            return PostAndCursorResponse.noMore(scrolledPosts, accountId);
+        }
+        return PostAndCursorResponse.hasMore(scrolledPosts, accountId);
     }
 
     @Transactional(readOnly = true)
