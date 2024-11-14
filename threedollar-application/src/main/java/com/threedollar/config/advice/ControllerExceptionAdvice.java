@@ -3,6 +3,7 @@ package com.threedollar.config.advice;
 import com.threedollar.common.dto.response.ApiResponse;
 import com.threedollar.common.exception.BaseException;
 import com.threedollar.common.exception.ErrorCode;
+import com.threedollar.common.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.threedollar.common.exception.ErrorCode.E400_INVALID;
+import static com.threedollar.common.exception.ErrorCode.E404_NOT_FOUND;
 
 @Slf4j
 @RestControllerAdvice
@@ -30,6 +32,17 @@ public class ControllerExceptionAdvice {
         log.warn(StringUtils.join(reasons, ", "), e);
         return ApiResponse.error(E400_INVALID, reasons);
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    private ApiResponse<Object> handleNotFoundRequest(BindException e) {
+        List<String> reasons = e.getBindingResult().getFieldErrors().stream()
+            .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+            .collect(Collectors.toList());
+        log.warn(StringUtils.join(reasons, ", "), e);
+        return ApiResponse.error(E404_NOT_FOUND, reasons);
+    }
+
 
     @ExceptionHandler(BaseException.class)
     private ResponseEntity<ApiResponse<Object>> handleBaseException(BaseException e) {

@@ -1,5 +1,6 @@
 package com.threedollar.service.post;
 
+import com.threedollar.common.exception.InvalidRequestException;
 import com.threedollar.common.exception.NotFoundException;
 import com.threedollar.domain.post.Post;
 import com.threedollar.domain.post.PostGroup;
@@ -61,7 +62,7 @@ public class PostService {
 
         if (cursorDirection.equals(CursorDirection.UP)) {
             if (cursor == null) {
-                throw new IllegalArgumentException("cursor 는 null 일 수 없습니다.");
+                throw new InvalidRequestException("cursor 는 null 일 수 없습니다.");
             }
             List<Post> scrollUpPosts = postRepository.findByPostGroupAndWorkspaceIdAndTargetIdAndCursorAndSizeAsc(postGroup, workspaceId, targetId, cursor, size + 1);
             return getPostAndCursorResponse(scrollUpPosts, size, accountId);
