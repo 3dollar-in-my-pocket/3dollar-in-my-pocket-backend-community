@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -49,6 +50,14 @@ public class ControllerExceptionAdvice {
         log.error(e.getErrorCode().getMessage(), e);
         return ResponseEntity.status(e.getErrorCode().getStatus())
             .body(ApiResponse.error(e.getErrorCode()));
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    private ResponseEntity<ApiResponse<Object>> handleMissingServletRequestParameterException(
+        MissingServletRequestParameterException e) {
+        log.error(e.getMessage(), e);
+        return ResponseEntity.status(e.getStatusCode())
+            .body(ApiResponse.error(E400_INVALID));
     }
 
     @ExceptionHandler(Throwable.class)

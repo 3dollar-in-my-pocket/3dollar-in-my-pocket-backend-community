@@ -40,8 +40,7 @@ public interface PostRepositoryCustom {
                                                        PostGroup postGroup,
                                                        String targetId);
 
-    boolean existPostByPostGroupAndPostIdAndAccountIdAndTargetId(PostGroup postGroup,
+    boolean existPostByPostGroupAndPostIdAndTargetId(PostGroup postGroup,
         Long postId,
-        String accountId,
         String targetId);
 }
