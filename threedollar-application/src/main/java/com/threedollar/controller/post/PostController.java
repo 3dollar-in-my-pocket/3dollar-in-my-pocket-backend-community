@@ -101,10 +101,9 @@ public class PostController {
     public ApiResponse<Boolean> validatePost(
         @PathVariable PostGroup postGroup,
         @PathVariable Long postId,
-        @RequestParam(required = false) String accountId,
         @PathVariable String targetId
         ) {
-        return ApiResponse.success(postService.existsPost(postGroup, postId, accountId, targetId));
+        return ApiResponse.success(postService.existsPost(postGroup, postId, targetId));
     }
 
 

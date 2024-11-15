@@ -41,7 +41,7 @@ Content-Type: application/json
 
 
 ### Post 단건 조회
-GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post/2
+GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post/26
 X-Community-Api-Key: {{api_key}}
 Content-Type: application/json
 
@@ -51,4 +51,9 @@ GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post-count
 X-Community-Api-Key: {{api_key}}
 Content-Type: application/json
 
+
+### Post 가 존재하는 지 확인
+GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post/230/exist
+X-Community-Api-Key: {{api_key}}
+Content-Type: application/json
 

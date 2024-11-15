@@ -39,7 +39,7 @@ public class PostServiceTest extends IntegrationTest {
         Post post = createPost();
 
         // when
-        boolean exist = postService.existsPost(post.getPostGroup(), post.getId(), post.getAccountId(), post.getTargetId());
+        boolean exist = postService.existsPost(post.getPostGroup(), post.getId(), post.getTargetId());
 
         // then
         assertThat(exist).isEqualTo(true);

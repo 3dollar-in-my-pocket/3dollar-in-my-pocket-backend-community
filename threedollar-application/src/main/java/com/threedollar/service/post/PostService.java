@@ -111,13 +111,12 @@ public class PostService {
         return PostResponse.of(post, accountId);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public boolean existsPost(PostGroup postGroup,
         Long postId,
-        String accountId,
         String targetId) {
 
-        return postRepository.existPostByPostGroupAndPostIdAndAccountIdAndTargetId(postGroup, postId, accountId, targetId);
+        return postRepository.existPostByPostGroupAndPostIdAndTargetId(postGroup, postId, targetId);
 
     }
 

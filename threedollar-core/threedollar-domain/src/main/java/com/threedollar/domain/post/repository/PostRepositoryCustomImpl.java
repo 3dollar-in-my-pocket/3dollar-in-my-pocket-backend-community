@@ -108,15 +108,13 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public boolean existPostByPostGroupAndPostIdAndAccountIdAndTargetId(PostGroup postGroup, Long postId, String accountId,
-        String targetId) {
+    public boolean existPostByPostGroupAndPostIdAndTargetId(PostGroup postGroup, Long postId, String targetId) {
 
         Integer fetchOne = jpaQueryFactory.selectOne()
             .from(post)
             .where(
                 post.postGroup.eq(postGroup),
                 post.id.eq(postId),
-                post.accountId.eq(accountId),
                 post.targetId.eq(targetId),
                 post.status.eq(PostStatus.ACTIVE)
             ).fetchFirst();
