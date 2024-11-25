@@ -5,7 +5,7 @@ buildscript {
         springDependencyManagementVersion = "1.1.6"
 
         // Swagger
-        springDocVersion = "2.6.0"
+        springDocVersion = "2.7.0"
         findBugsJsr305Version = "3.0.2"
     }
 }
