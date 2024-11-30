@@ -6,6 +6,7 @@ import jakarta.annotation.Nullable;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -36,9 +37,10 @@ public interface PostRepositoryCustom {
         @NotNull Long cursor,
         int size);
 
-    long postCountByWorkspaceIdAndPostGroupAndTargetId(String workspaceId,
+    long postCountByWorkspaceIdAndPostGroupAndTargetIdAndStartTimeAndEndTime(String workspaceId,
                                                        PostGroup postGroup,
-                                                       String targetId);
+                                                       String targetId,
+        LocalDateTime startTime, LocalDateTime endTime);
 
     boolean existPostByPostGroupAndPostIdAndTargetId(PostGroup postGroup,
         Long postId,

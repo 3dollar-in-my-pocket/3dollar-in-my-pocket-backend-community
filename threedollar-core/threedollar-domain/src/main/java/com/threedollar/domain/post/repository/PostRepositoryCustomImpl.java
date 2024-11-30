@@ -5,6 +5,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.threedollar.domain.post.Post;
 import com.threedollar.domain.post.PostGroup;
 import com.threedollar.domain.post.PostStatus;
+
+import java.time.LocalDateTime;
+
+import java.util.Objects;
+
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -95,17 +100,21 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
 
     @Override
-    public long postCountByWorkspaceIdAndPostGroupAndTargetId(String workspaceId, PostGroup postGroup, String targetId) {
+    public long postCountByWorkspaceIdAndPostGroupAndTargetIdAndStartTimeAndEndTime(String workspaceId, PostGroup postGroup, String targetId,
+        LocalDateTime startTime, LocalDateTime endTime) {
         Long count = jpaQueryFactory.select(post.count())
             .from(post)
             .where(
-                post.workspaceId.eq(workspaceId),
-                post.postGroup.eq(postGroup),
-                post.targetId.eq(targetId),
+                existsWorkspaceId(workspaceId),
+                existsPostGroup(postGroup),
+                existsTargetId(targetId),
+                existsStartTime(startTime),
+                existsEndTime(endTime),
                 post.status.eq(PostStatus.ACTIVE)
             ).fetchOne();
         return ObjectUtils.defaultIfNull(count, 0L);
     }
+
 
     @Override
     public boolean existPostByPostGroupAndPostIdAndTargetId(PostGroup postGroup, Long postId, String targetId) {
@@ -133,6 +142,38 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
             return null;
         }
         return post.accountId.eq(accountId);
+    }
+
+
+    private BooleanExpression existsStartTime(LocalDateTime startTime) {
+        return post.createdAt.goe(
+            Objects.requireNonNullElseGet(startTime, () -> LocalDateTime.of(1970, 1, 1, 0, 0)));
+    }
+
+    private BooleanExpression existsEndTime(LocalDateTime endTime) {
+        return post.createdAt.loe(Objects.requireNonNullElseGet(endTime, LocalDateTime::now));
+
+    }
+
+    private BooleanExpression existsTargetId(String targetId) {
+        if (targetId == null) {
+            return null;
+        }
+        return post.targetId.eq(targetId);
+    }
+
+    private BooleanExpression existsWorkspaceId(String workspaceId) {
+        if (workspaceId == null) {
+            return null;
+        }
+        return post.workspaceId.eq(workspaceId);
+    }
+
+    private BooleanExpression existsPostGroup(PostGroup postGroup) {
+        if (postGroup == null) {
+            return null;
+        }
+        return post.postGroup.eq(postGroup);
     }
 
 

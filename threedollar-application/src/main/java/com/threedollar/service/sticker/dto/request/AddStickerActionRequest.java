@@ -24,7 +24,7 @@ public class AddStickerActionRequest {
     private Set<@NotBlank @Size(max = 100) String> stickerNames;
 
     @Builder
-    public AddStickerActionRequest(String targetId, String accountId, Set<String> stickerNames) {
+    public AddStickerActionRequest(String targetId, @Nullable String accountId, Set<String> stickerNames) {
         this.targetId = targetId;
         this.accountId = accountId;
         this.stickerNames = stickerNames;

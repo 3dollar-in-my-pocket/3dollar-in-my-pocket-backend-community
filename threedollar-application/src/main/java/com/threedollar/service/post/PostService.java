@@ -12,6 +12,9 @@ import com.threedollar.service.post.request.PostUpdateRequest;
 import com.threedollar.service.post.response.PostAndCursorResponse;
 import com.threedollar.service.post.response.PostResponse;
 import jakarta.validation.constraints.NotBlank;
+
+import java.time.LocalDateTime;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,8 +97,10 @@ public class PostService {
 
     public Long getPostCountByTargetId(String workspaceId,
                                        PostGroup postGroup,
-                                       String targetId) {
-        return Math.max(0, postRepository.postCountByWorkspaceIdAndPostGroupAndTargetId(workspaceId, postGroup, targetId));
+                                       String targetId,
+        LocalDateTime startTime, LocalDateTime endTime) {
+        return Math.max(0, postRepository.postCountByWorkspaceIdAndPostGroupAndTargetIdAndStartTimeAndEndTime(workspaceId, postGroup, targetId,
+            startTime, endTime));
     }
 
     @Transactional

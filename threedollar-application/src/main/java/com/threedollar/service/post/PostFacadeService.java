@@ -9,6 +9,9 @@ import com.threedollar.service.post.response.PostResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDateTime;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -62,8 +65,9 @@ public class PostFacadeService {
 
     public Long getPostCountByTargetId(String workspaceId,
                                        PostGroup postGroup,
-                                       String targetId) {
-        return postService.getPostCountByTargetId(workspaceId, postGroup, targetId);
+                                       String targetId,
+        LocalDateTime startTime, LocalDateTime endTime) {
+        return postService.getPostCountByTargetId(workspaceId, postGroup, targetId, startTime, endTime);
     }
 
     public PostResponse updatePost(String workspaceId,
