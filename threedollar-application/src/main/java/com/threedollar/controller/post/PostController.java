@@ -13,6 +13,9 @@ import com.threedollar.service.post.response.PostAndCursorResponse;
 import com.threedollar.service.post.response.PostResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+
+import java.time.LocalDateTime;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -78,8 +81,11 @@ public class PostController {
     @GetMapping("/v1/post-group/{postGroup}/target/{targetId}/post-count")
     public ApiResponse<Long> getPostCount(@PathVariable PostGroup postGroup,
                                           @RequestApiKey ApiKeyContext workspaceId,
-                                          @PathVariable String targetId) {
-        return ApiResponse.success(postFacadeService.getPostCountByTargetId(workspaceId.getWorkspaceId(), postGroup, targetId));
+                                          @PathVariable String targetId,
+        @RequestParam(required = false) LocalDateTime startTime,
+        @RequestParam(required = false) LocalDateTime endTime) {
+        return ApiResponse.success(postFacadeService.getPostCountByTargetId(workspaceId.getWorkspaceId(), postGroup, targetId,
+            startTime, endTime));
 
     }
 

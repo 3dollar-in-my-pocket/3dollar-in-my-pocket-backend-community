@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.threedollar.common.exception.ErrorCode.E400_INVALID;
-import static com.threedollar.common.exception.ErrorCode.E404_NOT_FOUND;
 
 @Slf4j
 @RestControllerAdvice
@@ -36,12 +35,11 @@ public class ControllerExceptionAdvice {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
-    private ApiResponse<Object> handleNotFoundRequest(BindException e) {
-        List<String> reasons = e.getBindingResult().getFieldErrors().stream()
-            .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
-            .collect(Collectors.toList());
-        log.warn(StringUtils.join(reasons, ", "), e);
-        return ApiResponse.error(E404_NOT_FOUND, reasons);
+    private ResponseEntity<ApiResponse<Object>> handleNotFoundRequest(NotFoundException e) {
+        log.error(e.getErrorCode().getMessage(), e);
+        List<String> reasons = List.of(e.getMessage());
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+            .body(ApiResponse.error(e.getErrorCode(), reasons));
     }
 
 
