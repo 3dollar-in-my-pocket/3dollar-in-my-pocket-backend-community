@@ -8,6 +8,7 @@ import com.threedollar.service.post.PostFacadeService;
 import com.threedollar.service.post.PostService;
 import com.threedollar.service.post.request.PostAddRequest;
 import com.threedollar.service.post.request.PostAndCursorRequest;
+import com.threedollar.service.post.request.PostCountRequest;
 import com.threedollar.service.post.request.PostUpdateRequest;
 import com.threedollar.service.post.response.PostAndCursorResponse;
 import com.threedollar.service.post.response.PostResponse;
@@ -110,6 +111,14 @@ public class PostController {
         @PathVariable String targetId
         ) {
         return ApiResponse.success(postService.existsPost(postGroup, postId, targetId));
+    }
+
+    @Operation(summary = "[소식] 소식에 대한 통계를 확인합니다")
+    @GetMapping("/v1/post/count")
+    public ApiResponse<Long> getPostCount(@Valid PostCountRequest postCountRequest) {
+        return ApiResponse.success(postFacadeService.getPostCountByTargetId(postCountRequest.getWorkspaceId(),
+            postCountRequest.getPostGroup(), postCountRequest.getTargetId(), postCountRequest.getStartTime(),
+            postCountRequest.getEndTime()));
     }
 
 

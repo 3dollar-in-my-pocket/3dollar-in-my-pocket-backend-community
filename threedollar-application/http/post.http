@@ -57,3 +57,9 @@ GET {{host_api}}/community/v1/post-group/STORE_NEWS/target/3/post/230/exist
 X-Community-Api-Key: {{api_key}}
 Content-Type: application/json
 
+
+### Post 통계용 API
+GET {{host_api}}/community/v1/post/count?targetId=3
+X-Community-Api-Key: {{api_key}}
+Content-Type: application/json
+
