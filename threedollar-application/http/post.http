@@ -59,7 +59,7 @@ Content-Type: application/json
 
 
 ### Post 통계용 API
-GET {{host_api}}/community/v1/post/count?targetId=3
+GET {{host_api}}/community/v1/batch/post/count?startTime=2022-01-01T00:00:00&endTime=2025-01-31T23:59:59&postGroup=STORE_NEWS
 X-Community-Api-Key: {{api_key}}
 Content-Type: application/json
 
