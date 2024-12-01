@@ -2,6 +2,7 @@ package com.threedollar.domain.post.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.threedollar.common.QuerydslUtil;
 import com.threedollar.domain.post.Post;
 import com.threedollar.domain.post.PostGroup;
 import com.threedollar.domain.post.PostStatus;
@@ -9,6 +10,8 @@ import com.threedollar.domain.post.PostStatus;
 import java.time.LocalDateTime;
 
 import java.util.Objects;
+
+import java.util.function.Predicate;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -42,7 +45,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         return jpaQueryFactory.selectFrom(post)
             .leftJoin(post.postSection, postSection).fetchJoin()
             .where(
-                existsAccountId(accountId),
+                QuerydslUtil.dynamicQuery(accountId != null, () -> post.accountId.eq(accountId)),
                 post.workspaceId.eq(workspaceId),
                 post.id.eq(postId),
                 post.postGroup.eq(postGroup),
@@ -57,7 +60,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         List<Long> postIds = jpaQueryFactory.select(post.id)
             .from(post)
             .where(
-                existsCursor(cursor),
+                QuerydslUtil.dynamicQuery(cursor != null, () -> post.id.lt(cursor)),
                 post.workspaceId.eq(workspaceId),
                 post.postGroup.eq(postGroup),
                 post.targetId.eq(targetId),
@@ -106,11 +109,12 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
             .from(post)
             .where(
                 post.workspaceId.eq(workspaceId),
-                existsPostGroup(postGroup),
-                existsTargetId(targetId),
-                existsStartTime(startTime),
-                existsEndTime(endTime),
-                post.status.eq(PostStatus.ACTIVE)
+                post.status.eq(PostStatus.ACTIVE),
+                QuerydslUtil.dynamicQuery(targetId != null, () -> post.targetId.eq(targetId)),
+                QuerydslUtil.dynamicQuery(postGroup != null, () -> post.postGroup.eq(postGroup)),
+                QuerydslUtil.dynamicQuery(startTime != null, () -> post.targetId.eq(targetId)),
+                QuerydslUtil.dynamicQuery(startTime != null, () -> post.createdAt.goe(startTime)),
+                QuerydslUtil.dynamicQuery(endTime != null, () -> post.createdAt.loe(endTime))
             ).fetchOne();
         return ObjectUtils.defaultIfNull(count, 0L);
     }
@@ -129,52 +133,5 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
             ).fetchFirst();
         return fetchOne != null;
     }
-
-    private BooleanExpression existsCursor(Long cursor) {
-        if (cursor == null) {
-            return null;
-        }
-        return post.id.lt(cursor);
-    }
-
-    private BooleanExpression existsAccountId(String accountId) {
-        if (accountId == null) {
-            return null;
-        }
-        return post.accountId.eq(accountId);
-    }
-
-
-    private BooleanExpression existsStartTime(LocalDateTime startTime) {
-        return post.createdAt.goe(
-            Objects.requireNonNullElseGet(startTime, () -> LocalDateTime.of(1970, 1, 1, 0, 0)));
-    }
-
-    private BooleanExpression existsEndTime(LocalDateTime endTime) {
-        return post.createdAt.loe(Objects.requireNonNullElseGet(endTime, LocalDateTime::now));
-
-    }
-
-    private BooleanExpression existsTargetId(String targetId) {
-        if (targetId == null) {
-            return null;
-        }
-        return post.targetId.eq(targetId);
-    }
-
-    private BooleanExpression existsWorkspaceId(String workspaceId) {
-        if (workspaceId == null) {
-            return null;
-        }
-        return post.workspaceId.eq(workspaceId);
-    }
-
-    private BooleanExpression existsPostGroup(PostGroup postGroup) {
-        if (postGroup == null) {
-            return null;
-        }
-        return post.postGroup.eq(postGroup);
-    }
-
 
 }
