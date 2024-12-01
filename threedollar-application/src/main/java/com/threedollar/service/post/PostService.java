@@ -95,6 +95,7 @@ public class PostService {
         return PostResponse.of(post, accountId);
     }
 
+    @Transactional(readOnly = true)
     public Long getPostCountByTargetId(String workspaceId,
                                        PostGroup postGroup,
                                        String targetId,
