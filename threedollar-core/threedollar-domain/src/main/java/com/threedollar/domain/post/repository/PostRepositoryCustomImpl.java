@@ -112,7 +112,6 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 post.status.eq(PostStatus.ACTIVE),
                 QuerydslUtil.dynamicQuery(targetId != null, () -> post.targetId.eq(targetId)),
                 QuerydslUtil.dynamicQuery(postGroup != null, () -> post.postGroup.eq(postGroup)),
-                QuerydslUtil.dynamicQuery(startTime != null, () -> post.targetId.eq(targetId)),
                 QuerydslUtil.dynamicQuery(startTime != null, () -> post.createdAt.goe(startTime)),
                 QuerydslUtil.dynamicQuery(endTime != null, () -> post.createdAt.loe(endTime))
             ).fetchOne();
