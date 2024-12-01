@@ -23,17 +23,13 @@ public class PostCountRequest {
     private String targetId;
 
     @Nullable
-    private String workspaceId;
-
-    @Nullable
     private PostGroup postGroup;
 
     public PostCountRequest(@Nullable LocalDateTime startTime, @Nullable LocalDateTime endTime, @Nullable String targetId,
-        @Nullable String workspaceId, @Nullable PostGroup postGroup) {
+        @Nullable PostGroup postGroup) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.targetId = targetId;
-        this.workspaceId = workspaceId;
         this.postGroup = postGroup;
     }
 }
