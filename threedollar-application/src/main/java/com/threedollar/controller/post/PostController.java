@@ -115,8 +115,9 @@ public class PostController {
 
     @Operation(summary = "[소식] 소식에 대한 통계를 확인합니다")
     @GetMapping("/v1/post/count")
-    public ApiResponse<Long> getPostCount(@Valid PostCountRequest postCountRequest) {
-        return ApiResponse.success(postFacadeService.getPostCountByTargetId(postCountRequest.getWorkspaceId(),
+    public ApiResponse<Long> getPostCount(@Valid PostCountRequest postCountRequest,
+        @RequestApiKey ApiKeyContext workspaceContext) {
+        return ApiResponse.success(postFacadeService.getPostCountByTargetId(workspaceContext.getWorkspaceId(),
             postCountRequest.getPostGroup(), postCountRequest.getTargetId(), postCountRequest.getStartTime(),
             postCountRequest.getEndTime()));
     }

@@ -105,7 +105,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         Long count = jpaQueryFactory.select(post.count())
             .from(post)
             .where(
-                existsWorkspaceId(workspaceId),
+                post.workspaceId.eq(workspaceId),
                 existsPostGroup(postGroup),
                 existsTargetId(targetId),
                 existsStartTime(startTime),
