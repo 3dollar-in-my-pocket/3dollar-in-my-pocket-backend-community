@@ -34,6 +34,10 @@ public class Coupon extends BaseEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    private CouponGroup couponGroup;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private CouponStatus status;
 
     @Column(nullable = false)
@@ -51,20 +55,21 @@ public class Coupon extends BaseEntity {
 
     @Builder(access = AccessLevel.PRIVATE)
     public Coupon(String workspaceId, String targetId, String name, CouponType couponType,
-        CouponTag couponTag, CouponStatus status, CouponTime couponTime, long count, String accountId) {
+        CouponTag couponTag, CouponStatus status, CouponGroup couponGroup, CouponTime couponTime, long count, String accountId) {
         this.workspaceId = workspaceId;
         this.targetId = targetId;
         this.name = name;
         this.couponTag = couponTag;
         this.couponType = couponType;
         this.status = status;
+        this.couponGroup = couponGroup;
         this.count = count;
         this.couponTime = couponTime;
         this.accountId = accountId;
     }
 
     public static Coupon newInstance(String workspaceId, String targetId, String name,
-        CouponType couponType, CouponTag couponTag, long count, CouponTime couponTime, String accountId) {
+        CouponType couponType, CouponTag couponTag, CouponGroup couponGroup,  long count, CouponTime couponTime, String accountId) {
         return Coupon.builder()
             .couponType(couponType)
             .workspaceId(workspaceId)
@@ -74,6 +79,7 @@ public class Coupon extends BaseEntity {
             .couponTime(couponTime)
             .accountId(accountId)
             .count(count)
+            .couponGroup(couponGroup)
             .status(CouponStatus.ACTIVE)
             .build();
     }
